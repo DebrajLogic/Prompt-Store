@@ -45,11 +45,11 @@ const PromptCard = ({ prompt, handleTagClick, handleEdit, handleDelete }) => {
             alt=""
           />
         </div>
-        {copied && (
+        {/* {copied && (
           <span className="absolute top-1 right-1 px-2 py-1 rounded-full bg-green-500 text-white">
             Copied
           </span>
-        )}
+        )} */}
       </div>
 
       <p className="my-4 font-satoshi text-sm text-gray-700 overflow-scroll whitespace-wrap text-ellipsis md:h-28 h-24">
