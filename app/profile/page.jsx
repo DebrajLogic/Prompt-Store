@@ -1,11 +1,15 @@
-import React from 'react'
+import React from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-const Profile = () => {
+import { Profile } from "@components";
+
+const ProfilePage = () => {
   return (
     <div>
-      Profile
+      <Profile name={"My"} description={"Welcome to your profile"} data={[]} />
     </div>
-  )
-}
+  );
+};
 
-export default Profile
+export default ProfilePage;
