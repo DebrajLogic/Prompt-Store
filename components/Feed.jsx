@@ -21,7 +21,42 @@ const PromptCardList = ({ data, handleTagClick }) => {
 const Feed = () => {
   const [searchText, setSearchText] = useState("");
   const [prompts, setPrompts] = useState([]);
-  const handleSearchChange = (e) => {};
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchTimeout, setSearchTimeout] = useState(null);
+
+  const handleTagClick = (tag) => {
+    console.log("handling tag click");
+    setSearchText(tag);
+
+    const searchResult = filterPrompts(tag);
+    setSearchResults(searchResult);
+  };
+
+  const handleSearchChange = (e) => {
+    clearTimeout(searchTimeout);
+
+    const newSearchText = e.target.value;
+    if (newSearchText !== searchText) {
+      setSearchText(e.target.value);
+
+      setSearchTimeout(
+        setTimeout(() => {
+          const searchResult = filterPrompts(e.target.value);
+          setSearchResults(searchResult);
+        }, 50)
+      );
+    }
+  };
+
+  const filterPrompts = (searchText) => {
+    const regex = new RegExp(searchText, "i");
+    return prompts?.filter(
+      (item) =>
+        regex.test(item?.creator?.username) ||
+        regex.test(item?.tag) ||
+        regex.test(item?.prompt)
+    );
+  };
 
   useEffect(() => {
     fetchPrompts();
@@ -45,7 +80,14 @@ const Feed = () => {
           className="search_input peer"
         />
       </form>
-      <PromptCardList data={prompts} handleTagClick={() => {}} />
+      {searchText ? (
+        <PromptCardList
+          data={searchResults}
+          handleTagClick={() => handleTagClick}
+        />
+      ) : (
+        <PromptCardList data={prompts} handleTagClick={() => handleTagClick} />
+      )}
     </section>
   );
 };
